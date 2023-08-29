@@ -11,14 +11,14 @@ exports.resetPasswordToken = async(req, res) => {
         // check email is present or not
         const user = await User.findOne({email: email});
         if(!user){
-            return res.status(401).json({
+            return res.json({
                 success: false,
-                message: "Your Email is not registered with us",
+				message: `This Email: ${email} is not Registered With Us Enter a Valid Email `,
             })
         }
 
         // if user present , Generat the token
-        const token = crypto.randomUUID();
+        const token = crypto.randomBytes(20).toString("hex");
         //update user by adding token and expiration time
         const updateDetails = await User.findByIdAndUpdate(
                                         {email: email},
@@ -28,14 +28,15 @@ exports.resetPasswordToken = async(req, res) => {
                                         },
                                         {new: true},
         )
+        console.log("DETAILS", updateDetails);
         // create url
         const url = `http://localhost:3000/update-password/${token}`;
         //send mail containing the url
         await mailSender(
                            email,
-                           "Password Reaste Link",
-                           `Password Reset Link : ${url}`  
-                        )
+                           "Password Reset",
+                           `Your Link for email verification is ${url}. Please click this url to reset your password.`
+                       );
         //return response
         return res.json({
             success:true,
@@ -57,7 +58,7 @@ exports.resetPassword = async(req, res) => {
         const {password, confirmPassword, token} = req.body;
 
         //validation
-        if(password !== confirmPassword ) {
+        if(confirmPassword !==  password) {
             return res.status(401).json({
                 success: false,
                 message: "Password is not match",
@@ -76,8 +77,8 @@ exports.resetPassword = async(req, res) => {
         }
 
         // token time check
-        if(userDetails.resetPasswordExpires < Date.now()){
-            return res.json({
+        if(!(userDetails.resetPasswordExpires > Date.now())){
+            return res.status(403).json({
                 success:false,
                 message:'Token is expired, please regenerate your token',
             })
