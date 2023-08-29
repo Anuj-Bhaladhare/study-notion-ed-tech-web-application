@@ -14,7 +14,7 @@ require("dotenv").config();
 exports.singUp = async(req, res) => {
     try{
 
-        //data fetch from request ki body
+		// Destructure fields from the request body
         const {
             firstName,
             lastName, 
@@ -26,8 +26,14 @@ exports.singUp = async(req, res) => {
             otp
         } = req.body;
 
-        // if all details is not present
-        if(!firstName || !lastName || !email || !password || !confirmPassword || !otp ){
+       // Check if All Details are there or not
+        if(!firstName || 
+            !lastName || 
+            !email || 
+            !password || 
+            !confirmPassword || 
+            !otp
+            ) {
             return res.status(403).json({
                 success: false,
                 massage: "All fields are required",
@@ -35,7 +41,7 @@ exports.singUp = async(req, res) => {
         }
 
         
-        // check password and conform password is same or not
+        // Check if password and confirm password match
         if(password !== confirmPassword){
             return res.status(400).json({
                 success: false,
@@ -45,12 +51,12 @@ exports.singUp = async(req, res) => {
 
 
          //check user already exist or not
-        const presentUserSingUp = await User.findOne({email});
+        const existingUser = await User.findOne({email});
         // if user is exist
-        if(presentUserSingUp){
+        if(existingUser){
             return res.status(400).json({
                 success: false, 
-                massage: "User is already registered",
+                massage: "User already exists. Please sign in to continue.",
             })
         }
 
@@ -59,47 +65,54 @@ exports.singUp = async(req, res) => {
         console.log(recentOtp);
 
         //validate OTP
-        if(recentOtp.length == 0){
+        if(recentOtp.length === 0) {
+            // OTP not found for the email
             return res.status(400).json({
                 success: false,
-                massage: "OTP Not Found....!",
+                massage: "The OTP is not valid",
             })
         }
-        else if(otp !== recentOtp.otp){
+        else if(otp !== recentOtp[0].otp){
+            // Invalid OTP
             return res.status(400).json({
                 success: false,
-                massage: "Invalid OTP",
+                massage: "The OTP is not valid",
             })
         }
 
-        //Hash password
-        const bcryptPass = await bycrypt.hash(password, 10);
+        //Hash the password
+        const hashedPassword = await bycrypt.hash(password, 10);
 
-        // create entry in database
+        // Create the user
+        let approved = "";
+        approved === "Instructor" ? (approved = false) : (approved = true);
+
+        // Create the Additional Profile For User
         const profileDetails = {
             gender:null,
             dateOfBirth: null,
             about:null,
             contactNumer:null,
-        }
+        };
+
         const user = await User.create({
             firstName,
             lastName,
             email,
             contactNumber,
-            password: bcryptPass,
-            accountType,
+            password: hashedPassword,
+            accountType: accountType,
+            approved: approved,
             additionalDetails: profileDetails._id,
-            image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstname} ${lastName}`, 
-        })
+            image: `https://api.dicebear.com/5.x/initials/svg?seed=${firstName} ${lastName}`, 
+        });
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
-            massage: "User is registered Successfully...!",
             user,
-        })
-    }
-    catch(error){
+            massage: "User is registered Successfully",
+        });
+    } catch(error){
         console.log(error);
         return res.status(500).json({
             success:false,
@@ -113,43 +126,49 @@ exports.singUp = async(req, res) => {
 exports.login = async(req, res) => {
     try{
 
-        // fetct data from request ki body
+		// Get email and password from request body
         const { email, password } = req.body;
 
-        // check alll data
+		// Check if email or password is missing
         if(!email || !password){
-            return res.status(403).json({
+            return res.status(400).json({
                 success: false,
                 massage: "All fields are required, please try again",
             });
         }
 
-        // chack user allready exist
+		// Find user with provided email
         const user = await User.findOne({email}).populate("additionalDetails")
+
+		// If user not found with provided email
         if(!user){
             return res.status(401).json({
                 success: false,
-                massage: "User is not registrered, please signup first",
+				message: `User is not Registered with Us Please SignUp to Continue`,
             })
         }
        
-        //generate JWT, after password 
-        const comparePass = await bycrypt.compare(password, user.password);
-        if(comparePass){
-           const payload = {
-                email: user.email,
-                id: user._id,
-                accountType: user.accountType,
-            }
-            const token = jwt.sign(payload, process.env.JWT_SECRET, {
-                expiresIn: "2h",
-            });
+		// Generate JWT token and Compare Password
+        if(await bycrypt.compare(password, user.password)){
+            const token = jwt.sign(
+                { 
+                    email: user.email,
+                    id: user._id,
+                    role: user.role,
+                },
+                process.env.JWT_SECRET,
+                {
+                    expiresIn: "24h",
+                }
+           );
+            
+			// Save token to user document in database
             user.token = token;
             user.password = undefined;
 
-            //create cookie and send response
+           	// Set cookie for token and return success response
             const option = {
-                expires: new Date(Date.now() + 3*24*60*60*1000),
+                expires: new Date(Date.now() + 3 * 24 * 60 * 60 * 1000),
                 httpOnly: true,
             }
             res.cookie("token", token, option).status(200).json({
@@ -169,7 +188,7 @@ exports.login = async(req, res) => {
     catch(error){
         return res.status(500).json({
              success: false,
-             massage: "Login failed",
+             massage: "Login Failure Please Try Again",
         })
      }
 }
@@ -182,14 +201,17 @@ exports.sendOTP = async(req, res) => {
        //fetch email from request ki body
        const { email } = req.body;
 
-       // find email in db is allready exist
-       const existingEmail = await User.findOne({email});
+        // Check if user is already present
+		// Find user with provided email
+        const checkUserPresent = await User.findOne({email});
+		// to be used in case of signup
 
-       //if user already exist , then return a response
-       if(existingEmail){
+		// If user found with provided email
+       if(checkUserPresent){
+		   // Return 401 Unauthorized status code with error message
            return res.status(401).json({
                success: false,
-               massage: 'User already registered',
+               massage: 'User is Already Registered',
            })
        }
 
@@ -199,39 +221,33 @@ exports.sendOTP = async(req, res) => {
            lowerCaseAlphabets: false,
            specialChars: false,
        });
-       console.log("OTP generated: ", otp );
-
-       //check unique otp or not
-       let result = await OTP.findOne({otp: otp});
-
+       const result = await OTP.findOne({otp: otp});
+       console.log("Result is Generate OTP Func");
+       console.log("OTP", otp);
+       console.log("Result", result);
        while(result){
-          otp = otpGenerator(6, {
+          otp = otpGenerator.generate(6, {
                 upperCaseAlphabets: false, 
                 lowerCaseAlphabets: false,
                 specialChars: false,
            });
-        result = await OTP.findOne({otp: otp})
        }
 
-       const otpPayload = {email, otp};
-
-       //create an entry for OTP
+       const otpPayload = { email, otp };
        const otpBody = await OTP.create(otpPayload);
-       console.log(otpPayload);
-
-       // send successfull responce Generat OTP
+       console.log("OTP Body", otpBody);
        res.status(200).json({
            success: true,
-           massage: "OTP generate Successfull...!",
+           massage: "OTP Sent Successfully",
            otp,
-       })
-    }
-    catch(error){
-       console.log(error);
+       });
+    } catch(error){
+       console.log(error.message);
        return res.status(500).json({
             success: false,
             massage: "OTP is NOT Generate...!",
-       })
+            error: error.message,
+       });
     }
 }
 
@@ -239,51 +255,75 @@ exports.sendOTP = async(req, res) => {
 // Controller for Changing Password
 exports.changePassword = async(req, res) => {
     try{
-        //get data from req body
-        const {email, oldPassword, newPassword, conformPassword } = req.body;
+		// Get user data from req.user
+        const userDetails = await User.findById(req.user.id);
 
-        // find user
-        const finduser = await User.findOne({email});
-        if(!finduser){
-            return res.status(403).json({
+		// Get old password, new password, and confirm new password from req.body
+        const { oldPassword, newPassword, conformPassword } = req.body;
+
+        // Validate old password
+        const isPasswordMatch = await bycrypt.compare(
+            oldPassword,
+            userDetails.password,
+        )
+
+        if(!isPasswordMatch){
+			// If old password does not match, return a 401 (Unauthorized) error
+            return res.status(401).json({
                 success: false,
-                massage: "user dose not exist...!",
+                massage: "The password is incorrect",
             })
         }
-        // chack old password
-        const oldPass = await bycrypt.compare(oldPassword, User.password);
-        if(!oldPass){
-            return res.status(401).json({
-                success: false,
-                massage: "old password does not match...!",
-            }) 
-        }
 
-        //validation
+		// Match new password and confirm new password
         if(newPassword !== conformPassword){
-            return res.status(401).json({
+			// If new password and confirm new password do not match, return a 400 (Bad Request) error
+            return res.status(400).json({
                success: false,
                massage: "newPassword and conformPassword does not match...!",
-            })
+            });
         }
 
-        const hassPass = await bycrypt.hash(newPassword, 10);
+		// Update password
+        const encryptedPassword = await bycrypt.hash(newPassword, 10);
+        const updatedUserDetails = await User.findByIdAndUpdate(
+            req.user.id,
+            {password: encryptedPassword},
+            {new: true}
+        );
 
-        //update pwd in DB
-        const changPass = await User.replaceOne(password, hassPass)
-        //send mail - Password updated
-
+		// Send notification email
+        try{
+           const emailResponse = await mailSender(
+                passwordUpdated(
+                    updatedUserDetails.email,
+                    `Password updated seccessfully for ${updatedUserDetails.firstName} ${updatedUserDetails.lastName}`
+                )
+            )
+			console.log("Email sent successfully:", emailResponse.response);
+        } catch(error){
+            // If there's an error sending the email, log the error and return a 500 (Internal Server Error) error
+            console.error("Error occurred while sending email:", error);
+            return res.status(500).json({
+                success: false,
+                message: "Error occurred while sending email",
+                error: error.message,
+            });
+        }
 
         //return response
         res.status(200).json({
             success: true,
-            massage: "resate password successfully...!",
+            massage: "Password updated successfully",
         })
     }
     catch(error){
-        return res.status(500).json({
-            success: false,
-            massage: "Login failed",
-       })
+        // If there's an error updating the password, log the error and return a 500 (Internal Server Error) error
+		console.error("Error occurred while updating password:", error);
+		return res.status(500).json({
+			success: false,
+			message: "Error occurred while updating password",
+			error: error.message,
+		});
     }
 }
