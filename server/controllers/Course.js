@@ -1,5 +1,5 @@
 const Course = require("../modals/Course");
-const Tag = require("../modals/tags");
+const Tag = require("../modals/Category");
 const User = require("../modals/User");
 const {uploadImageToCloudinary} = require("../utils/imageUploader");
 require("dotenv").config();
