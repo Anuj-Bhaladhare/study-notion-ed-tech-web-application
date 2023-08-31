@@ -5,16 +5,17 @@ const router = express.Router();
 // ***************** Importing Controller ******************
 
 // Course Controllers Import
-const { createCourse,
-        getAllCourses,
-        getCourseDetails
-      } = require("../controllers/Course");
+const { 
+    createCourse,
+    getAllCourses,
+    getCourseDetails
+} = require("../controllers/Course");
 
 // Categories Controllers Import
 const {
-        createCategory,
-        showAllCategories,
-        categoryPageDetails
+    createCategory,
+    showAllCategories,
+    categoryPageDetails
     } = require("../controllers/Category");
 
 // Sections Controllers Import
