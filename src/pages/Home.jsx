@@ -3,6 +3,8 @@ import { Link } from "react-router-dom";
 import {FaArrowRight} from "react-icons/fa"
 import HighlightText from "../components/core/homePage/HighlightText";
 import CTAButton from "../components/core/homePage/Button";
+import banner from "../assets/Images/banner.mp4";
+import CodeBlocks from "../components/core/homePage/CodeBlocks";
 
 const Home = () => {
     return(
@@ -37,13 +39,42 @@ const Home = () => {
                   </CTAButton>
                 </div>
 
-                <div>
-                  *******************************
+                <div className="mt-5">
+                  <video autoPlay loop muted>
+                    <source src={banner} type="video/mp4"/>
+                  </video>
                 </div>
 
                 {/* Code Section 1 */}
                 <div>
-                  *******************************
+                  <CodeBlocks
+                     position={"lg:flex-row"} 
+                     heading={
+                      <div className="text-4xl font-semibold">
+                        Unlock Your
+                        <HighlightText text={"coding potential"} />
+                        with our online courses
+                      </div>} 
+                     subheading={
+                      "Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you."
+                     } 
+                     ctabtn1={
+                      {
+                        btntext: "Try It Yourself",
+                        linkto: "/singup",
+                        active: true,
+                      }                    
+                    } 
+                     ctabtn2={
+                      {
+                        btntext: "Lern More",
+                        linkto: "/login",
+                        active: false,
+                      } 
+                     } 
+                     codeblock={`<<!DOCTYPE html>\n<html>\nhead><title>Example</title><linkrel="stylesheet"href="styles.css">\n/head>\n`} 
+                     codecolor={"text-yellow-25"} 
+                  />
                 </div>
 
                 {/* Code Section 2 */}
