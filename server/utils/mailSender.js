@@ -1,28 +1,28 @@
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 
-const mailSender = async(email, title, body) => {
-    try{
+const mailSender = async (email, title, body) => {
+    try {
         let transporter = nodemailer.createTransport({
-
-            HOST: process.env.MAIL_HOST,
-            auth:{
+            host: process.env.MAIL_HOST, // Corrected property name to 'host'
+            auth: {
                 user: process.env.MAIL_USER,
-                user: process.env.MAIL_USER,
+                pass: process.env.MAIL_PASSWORD, // Corrected property name to 'pass'
             },
-        })
+        });
+
         let info = await transporter.sendMail({
             from: `StudyNotion || Anuj's Team`,
-            to: `${email}`,
-            subject: `${title}`,
-            html: `${body}`,
-        })
-        console.log(info);
+            to: email,
+            subject: title,
+            html: body,
+        });
+
+        console.log("Email sent:", info.response);
         return info;
+    } catch (error) {
+        console.log("Error caught while sending the email:", error.message);
     }
-    catch(error){
-        console.log("error catch in dending the Email", error.message);
-    }
-}
+};
 
 module.exports = mailSender;
