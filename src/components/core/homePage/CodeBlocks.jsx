@@ -1,6 +1,6 @@
 import React from "react"; // Corrected import statement
-import { FaArrowRight } from "react-icons/fa";
 import CTAButton from "./Button";
+import { FaArrowRight } from "react-icons/fa";
 import { TypeAnimation } from "react-type-animation";
 
 const CodeBlocks = ({
@@ -15,28 +15,33 @@ const CodeBlocks = ({
 }) => {
   return (
     <div className={`flex ${position} my-20 justify-between gap-10`}>
+
         {/* Section 1 */}
-      <div className="w-[50%] flex-col gap-8">
+      <div className="w-[50%] flex flex-col gap-8">
         {heading}
         <div className="text-richblack-300 gap-8">
             {subheading}
         </div>
 
         <div className="flex gap-7 mt-7">
-          <CTAButton active={ctabtn1.active} linkto={ctabtn1.linkto}>
-            <div className="flex gap-2 items-center">
-              {ctabtn1.btntext}
-              <FaArrowRight />
-            </div>
-          </CTAButton>
-          <CTAButton active={ctabtn2.active} linkto={ctabtn2.linkto}>
-            {ctabtn2.btntext}
-          </CTAButton>
+
+            <CTAButton active={ctabtn1.active} linkto={ctabtn1.linkto}>
+              <div className="flex gap-2 items-center">
+                  {ctabtn1.btntext}
+                  <FaArrowRight />
+              </div>
+            </CTAButton>
+
+            <CTAButton active={ctabtn2.active} linkto={ctabtn2.linkto}>
+              {ctabtn2.btntext}
+            </CTAButton>
+
         </div>
       </div>
       
       {/* Section 2 */}
       <div className="h-fit flex flex-row text-[10px] w-[100%] py-4 lg:w-[500px]">
+        {/*BG - Gradiant */}
         <div className="text-center flex flex-col w-[10%] text-richblack-400 font-inter font-bold">
           <p>1</p>
           <p>2</p>
@@ -53,9 +58,9 @@ const CodeBlocks = ({
 
         <div className={`w-[90%] flex flex-col gap font-bold font-mono ${codecolor} pr-2`}>
           <TypeAnimation
-            sequence={[codeblock, 1000, ""]}
-            cursor={true}
+            sequence={[codeblock, 2000, ""]}
             repeat={Infinity}
+            cursor={true}
             style={{
               whiteSpace: "pre-line",
               display: "block",
