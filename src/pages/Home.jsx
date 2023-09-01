@@ -155,7 +155,7 @@ const Home = () => {
                         <div className="text-[16px]">
                           The modern StudyNotion is the dictates its own terms. Today, to be a competitive specialist requires more than professional skills.
                         </div>
-                        <CTAButton active={true} linkto={"/login"}>
+                        <CTAButton className="w-fit" active={true} linkto={"/login"}>
                           <div>Lern More</div>
                         </CTAButton>
                       </div>
@@ -163,7 +163,7 @@ const Home = () => {
                   </div>
 
                 </div>
-                
+
                 <TimelineSection />
 
                 <LearningLanguageSection />
