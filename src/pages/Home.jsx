@@ -10,7 +10,7 @@ const Home = () => {
     return(
         <div>
            {/* Section 1 */}
-            <div className="flex flex-col items-center mx-auto">
+            <div className="relative flex flex-col items-center mx-auto w-11/12 max-w-maxContent text-white justify-between">
                 <Link to={"/singup"}>
                    <div>
                         <div className="flex flex-row items-center gap-2">

@@ -14,15 +14,17 @@ const CodeBlocks = ({
   backgroudGradient,
 }) => {
   return (
-    <div className={`flex flex-row ${position}`}>
-      <div>
-        <div>{heading}</div>
+    <div className={`flex ${position} my-20 justify-between gap-10`}>
+        {/* Section 1 */}
+      <div className="w-[50%] flex-col gap-8">
+        {heading}
+        <div className="text-richblack-300 gap-8">
+            {subheading}
+        </div>
 
-        <p>{subheading}</p>
-        
-        <div>
+        <div className="flex gap-7 mt-7">
           <CTAButton active={ctabtn1.active} linkto={ctabtn1.linkto}>
-            <div>
+            <div className="flex gap-2 items-center">
               {ctabtn1.btntext}
               <FaArrowRight />
             </div>
@@ -32,9 +34,10 @@ const CodeBlocks = ({
           </CTAButton>
         </div>
       </div>
-
-      <div className="flex flex-row">
-        <div>
+      
+      {/* Section 2 */}
+      <div className="h-fit flex flex-row text-[10px] w-[100%] py-4 lg:w-[500px]">
+        <div className="text-center flex flex-col w-[10%] text-richblack-400 font-inter font-bold">
           <p>1</p>
           <p>2</p>
           <p>3</p>
@@ -48,7 +51,7 @@ const CodeBlocks = ({
           <p>11</p>
         </div>
 
-        <div className={`${codecolor}`}>
+        <div className={`w-[90%] flex flex-col gap font-bold font-mono ${codecolor} pr-2`}>
           <TypeAnimation
             sequence={[codeblock, 1000, ""]}
             cursor={true}
