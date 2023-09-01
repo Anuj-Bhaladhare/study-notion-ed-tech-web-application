@@ -10,6 +10,7 @@ import LearningLanguageSection from "../components/core/homePage/LearningLanguag
 import TimelineSection from "../components/core/homePage/TimelineSection";
 import ExploreMore from "../components/core/homePage/ExploreMore";
 import InstructorSection from "../components/core/homePage/InstructorSection";
+import Footer from "../components/common/Footer";
 
 const Home = () => {
     return(
@@ -161,11 +162,11 @@ const Home = () => {
 
                   </div>
 
-                  <TimelineSection />
-
-                  <LearningLanguageSection />
-
                 </div>
+                
+                <TimelineSection />
+
+                <LearningLanguageSection />
             </div>
 
            {/* Section 3 */}
