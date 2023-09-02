@@ -46,7 +46,7 @@ const Home = () => {
                   </CTAButton>
                 </div>
 
-                <div className="mt-5">
+                <div className="mt-5 shadow_left_bottom">
                   <video autoPlay loop muted>
                     <source src={banner} type="video/mp4"/>
                   </video>
@@ -79,7 +79,7 @@ const Home = () => {
                         active: false,
                       } 
                      } 
-                     codeblock={`<<!DOCTYPE html>\n<html>\nhead><title>Example</title><linkrel="stylesheet"href="styles.css">\n/head>\n`} 
+                     codeblock={`<<!DOCTYPE html>\n<html>\nhead><title>Example</title><linkrel="stylesheet"href="styles.css">\n/head>\n<div class="dark-light-mode-box-2">\n<div class="col-lg-5">\n<button\nstyle="background-color: #ff4b66; border-color: #ff4e69"\n<span class="text-danger">Passion\n<h1 class="fw-bold"\nstyle="font-size: 3rem">\n`} 
                      codecolor={"text-yellow-25"} 
                   />
                 </div>
@@ -90,16 +90,21 @@ const Home = () => {
                      position={"lg:flex-row-reverse"}
                      heading={
                       <div className="text-4xl font-semibold">
-                        Unlock Your
-                        <HighlightText text={"coding potential "} />
-                        with our online courses
+                       <div>
+                          Start
+                          <HighlightText text={"coding "} />
+                       </div>
+                       <div>
+                         <HighlightText text={"in Second"}/>
+                       </div>
+                        
                       </div>} 
                      subheading={
                       "Our courses are designed and taught by industry experts who have years of experience in coding and are passionate about sharing their knowledge with you."
                      } 
                      ctabtn1={
                       {
-                        btntext: "Try It Yourself",
+                        btntext: "Continue Lesson",
                         linkto: "/singup",
                         active: true,
                       }                    
@@ -111,8 +116,8 @@ const Home = () => {
                         active: false,
                       } 
                      } 
-                     codeblock={`<<!DOCTYPE html>\n<html>\nhead><title>Example</title><linkrel="stylesheet"href="styles.css">\n/head>\n`} 
-                     codecolor={"text-yellow-25"} 
+                     codeblock={`<<!DOCTYPE html>\n<html>\nhead><title>Example</title><linkrel="stylesheet"href="styles.css">\n/head>\n<div class="dark-light-mode-box-2">\n<div class="col-lg-5">\n<button\nstyle="background-color: #ff4b66; border-color: #ff4e69"\n<span class="text-danger">Passion\n<h1 class="fw-bold"\nstyle="font-size: 3rem">\n`} 
+                     codecolor={"text-yellow-25"}
                   />
                 </div>
 
@@ -190,3 +195,4 @@ const Home = () => {
 }
 
 export default Home;
+
