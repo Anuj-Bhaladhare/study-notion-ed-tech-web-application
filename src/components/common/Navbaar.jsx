@@ -3,6 +3,7 @@ import Logo from "../../assets/Logo/Logo-Full-Light.png";
 import { Link, useLocation } from "react-router-dom"; // Changed `matchPath` to `useLocation`
 import { NavbarLinks } from "../../data/navbar-links";
 
+
 const Navbar = () => {
     const location = useLocation(); // Added to get the current location
 
@@ -16,6 +17,7 @@ const Navbar = () => {
                 <Link to="/">
                     <img src={Logo} alt="" loading="lazy" />
                 </Link>
+
                 <nav>
                     <ul className="flex flex-row gap-3">
                         {NavbarLinks.map((link, index) => {
@@ -41,6 +43,21 @@ const Navbar = () => {
                         })}
                     </ul>
                 </nav>
+
+                <div>
+                    <ul>
+                        <li>
+                            <Link to="/login" >
+                               login
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/singup" >
+                               singup
+                            </Link>                           
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     );

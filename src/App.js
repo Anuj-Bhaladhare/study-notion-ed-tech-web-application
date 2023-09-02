@@ -4,6 +4,8 @@ import { Routes, Route } from "react-router-dom";
 import React from "react";
 import Home from "./pages/Home";
 import Navbaar from "./components/common/Navbaar";
+import Login from "./pages/Login";
+import Singup from "./pages/Singup";
 
 function App() {
   return (
@@ -11,6 +13,8 @@ function App() {
       <Navbaar />
       <Routes>
          <Route path="/" element={<Home />}/>
+         <Route path="/login" element={<Login />}/>
+         <Route path="/singup" element={<Singup />}/>
       </Routes>
     </div>
   );
