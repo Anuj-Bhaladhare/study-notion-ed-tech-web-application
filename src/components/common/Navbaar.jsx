@@ -1,7 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Logo from "../../assets/Logo/Logo-Full-Light.png";
-import { Link, useLocation } from "react-router-dom"; // Changed `matchPath` to `useLocation`
+import { Link, useLocation, matchPath } from "react-router-dom";
 import { NavbarLinks } from "../../data/navbar-links";
+import { UseSelector, useSelector } from "react-redux/es/hooks/useSelector";
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import ProfileDropDown from "../core/Auth/ProfileDropDown";
+import { apiConnector } from "../../services/apis";
+import { categories } from "../../services/apis";
+import { IoIosArrowDropdownCircle } from "react-icons/io";
+
 
 const subLinks = [
     {
@@ -15,10 +22,31 @@ const subLinks = [
 ];
 
 const Navbar = () => {
-    const location = useLocation(); // Added to get the current location
+
+    const {token} = useSelector( (state) => state.auth);
+    const {user} = useSelector( (state) => state.profile);
+    const {totalItems} = useSelector( (state) => state.cart);
+    const location = useLocation();
+
+    const [ssubLinks, setSsubLinks] = useState([]);
+
+    const fetchSublinks = async() => {
+        try{
+            const result = await apiConnector("GET", categories.CATEGORIES_API);
+            console.log("Printing Sublinks result:" , result);
+            setSsubLinks(result.data.data);
+        }
+        catch(error){
+            console.log("Could not fetch the category list");
+        }
+    }
+
+    useEffect( () => {
+        fetchSublinks();
+    }, []);
 
     const matchRoute = (route) => {
-        return !!location.pathname.match(route); // Changed `matchPath` to match the current location
+        return !!location.pathname.match(route); 
     };
 
     return (
@@ -75,7 +103,41 @@ const Navbar = () => {
 
                 {/* Login / SingUp / dashboard */}
                 <div>
-
+                    {
+                        user && user?.accountType != "Instructor" && (
+                            <Link to="/dashboard/cart">
+                               <AiOutlineShoppingCart />
+                               {
+                                  totalItems > 0 && (
+                                    <span>
+                                        {totalItems}
+                                    </span>
+                                  )
+                               }
+                            </Link>
+                        )
+                    }
+                    {
+                        token === null && (
+                            <Link to="/login">
+                                <button className='border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100 rounded-md'>
+                                    Log in
+                                </button>
+                            </Link>
+                        )
+                    }
+                    {
+                        token === null && (
+                            <Link to="/signup">
+                               <button className='border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100 rounded-md'>
+                                   Sing Up
+                               </button>
+                            </Link>
+                        )
+                    }
+                    {
+                        token !== null && <ProfileDropDown />
+                    }
                 </div>
 
             </div>
