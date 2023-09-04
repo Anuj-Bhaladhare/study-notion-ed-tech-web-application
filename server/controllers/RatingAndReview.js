@@ -1,4 +1,4 @@
-const RatingAurReview = require("../modals/RatingAurReview");
+const RatingAndReview = require("../models/RatingAndRaview");
 const Course = require("../models/Course");
 const { mongo, default: mongoose } = require("mongoose");
 
@@ -23,7 +23,7 @@ exports.createRating = async (req, res) => {
             });
         }
         //check if user already reviewed the course
-        const alreadyReviewed = await RatingAurReview.findOne({
+        const alreadyReviewed = await RatingAndReview.findOne({
                                                 user:userId,
                                                 course:courseId,
                                             });
@@ -34,7 +34,7 @@ exports.createRating = async (req, res) => {
                     });
                 }
         //create rating and review
-        const ratingReview = await RatingAurReview.create({
+        const ratingReview = await RatingAndReview.create({
                                         rating, review, 
                                         course:courseId,
                                         user:userId,
@@ -74,7 +74,7 @@ exports.getAverageRating = async (req, res) => {
             const courseId = req.body.courseId;
             //calculate avg rating
 
-            const result = await RatingAurReview.aggregate([
+            const result = await RatingAndReview.aggregate([
                 {
                     $match:{
                         course: new mongoose.Types.ObjectId(courseId),
@@ -119,7 +119,7 @@ exports.getAverageRating = async (req, res) => {
 
 exports.getAllRating = async (req, res) => {
     try{
-            const allReviews = await RatingAurReview.find({})
+            const allReviews = await RatingAndReview.find({})
                                     .sort({rating: "desc"})
                                     .populate({
                                         path:"user",
