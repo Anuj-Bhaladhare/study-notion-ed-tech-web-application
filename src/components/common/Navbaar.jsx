@@ -5,7 +5,7 @@ import { NavbarLinks } from "../../data/navbar-links";
 import { useSelector } from "react-redux/es/hooks/useSelector";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import ProfileDropDown from "../core/Auth/ProfileDropDown";
-import { apiConnector } from "../../services/apis";
+import { apiConnector } from "../../services/apiconnector";
 import { categories } from "../../services/apis";
 import { IoIosArrowDropdownCircle } from "react-icons/io";
 
