@@ -181,3 +181,18 @@ export function logout(navigate) {
     navigate("/")
   }
 }
+
+
+// export function resatePassword(password, confirmPassword, token){
+//   return async(dispatch) => {
+//     dispatch(setLoading(true));
+//     try{
+//        const responce = await apiConnector("POST", RESETPASSWORD_API, {
+
+//        })
+//     }
+//     catch(error){
+
+//     }
+//   }
+// }
