@@ -116,6 +116,18 @@ export function login(email, password, navigate) {
   }
 }
 
+export function logout(navigate) {
+  return (dispatch) => {
+    dispatch(setToken(null))
+    dispatch(setUser(null))
+    dispatch(resetCart())
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
+    toast.success("Logged Out")
+    navigate("/")
+  }
+}
+
 export function getPasswordResetToken(email, setEmailSent) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
@@ -142,7 +154,7 @@ export function getPasswordResetToken(email, setEmailSent) {
   }
 }
 
-export function resetPassword(password, confirmPassword, token, navigate) {
+export function resetPassword(password, confirmPassword, token) {
   return async (dispatch) => {
     const toastId = toast.loading("Loading...")
     dispatch(setLoading(true))
@@ -160,39 +172,11 @@ export function resetPassword(password, confirmPassword, token, navigate) {
       }
 
       toast.success("Password Reset Successfully")
-      navigate("/login")
+
     } catch (error) {
-      console.log("RESETPASSWORD ERROR............", error)
-      toast.error("Failed To Reset Password")
+      console.log("RESET PASSWORD TOKEN Error", error);
+      toast.error("Unable to reset password");
     }
-    toast.dismiss(toastId)
-    dispatch(setLoading(false))
+    dispatch(setLoading(false));
   }
 }
-
-export function logout(navigate) {
-  return (dispatch) => {
-    dispatch(setToken(null))
-    dispatch(setUser(null))
-    dispatch(resetCart())
-    localStorage.removeItem("token")
-    localStorage.removeItem("user")
-    toast.success("Logged Out")
-    navigate("/")
-  }
-}
-
-
-// export function resatePassword(password, confirmPassword, token){
-//   return async(dispatch) => {
-//     dispatch(setLoading(true));
-//     try{
-//        const responce = await apiConnector("POST", RESETPASSWORD_API, {
-
-//        })
-//     }
-//     catch(error){
-
-//     }
-//   }
-// }

@@ -17,7 +17,7 @@ const ForgotPassword = () => {
     }
 
     return(
-        <div className="flex w-screen mx-auto justify-center flex-col text-white">
+        <div className="grig ">
             {
                 loading ?
                 (
