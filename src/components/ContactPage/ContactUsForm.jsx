@@ -10,32 +10,61 @@ const ContactUsForm = () => {
     const submitContactForm = () => {
 
     }
-    
+
     return(
         <form onSubmit={handleSubmit(submitContactForm)}>
            <div>
               <div>
                 {/* first Name */}
                 <div>
-                    <label></label>
-                    <input />
+                    <label htmlFor="firstname">First Name</label>
+                    <input 
+                      type="text"
+                      name="firstname"
+                      id="firstname"
+                      placeholder="enter first name"
+                      className="text-black"
+                      {...register("firstname", {require: true})}
+                    />
+                    {
+                        errors.firstname && (
+                            <span>
+                                Please enter Your name
+                            </span>
+                        )
+                    }
                 </div>
 
                 {/* last Name */}
                 <div>
-                    <label></label>
-                    <input />
+                    <label htmlFor="lastname">Last Name</label>
+                    <input 
+                      type="text"
+                      name="lastname"
+                      id="lastname"
+                      placeholder="Enter Last Name"
+                      className="text-black"
+                    />
                 </div>
               </div>
 
               {/* email */}
               <div>
-                <label htmlFor=""></label>
-                <input />
+                <label htmlFor="email">Email Address</label>
+                <input 
+                  type="email"
+                  name="email"
+                  id="email"
+                  placeholder="enter email"
+                  className="text-black"
+                  {...register("email", {require: true})}
+                />
                 {
-                    <span>
-                        Please enter your email address
-                    </span>
+                    errors.email && (
+                        <span>
+                            Please enter your email address
+                        </span>
+                    )  
                 }
               </div>
 
@@ -50,22 +79,45 @@ const ContactUsForm = () => {
                         }
                     </select>
 
-                    <input />
+                    <input 
+                      type="number"
+                      name="phonenumber"
+                      id="phonenumber"
+                      placeholder="12345 67890"
+                      className="text-black  w-[calc(100%-90px)]"
+                      {...register("phoneNo", {
+                        required:{value:true, message:"Please enter Phone Number"},
+                        maxLength: {value:10, message:"Invalid Phone Number"},
+                        minLength:{value:8, message:"Invalid Phone Number"}
+                      })}
+                    />
                 </div>
                 {
-                    <span>{}</span>
+                    errors.phoneNo && (
+                        <span>{errors.phoneNo.message}</span>
+                    )      
                 }
               </div>
 
               {/* message */}
               <div>
                 <label htmlFor=""></label>
-                <textarea />
+                <textarea 
+                  name="message"
+                  id="message"
+                  cols="30"
+                  rows="7"
+                  className="text-black"
+                  placeholder="Enter Your message here"
+                  {...register("message", {require: true})}
+                />
                 {
-                    <span>PLease enter your message.</span>
+                    errors.message && (
+                        <span>PLease enter your message.</span>
+                    )       
                 }
               </div>
-              <button>
+              <button type="submit" className='rounded-md bg-yellow-50 text-center px-6 text-[16px] font-bold text-black'>
                  Send Message
               </button>
            </div>
