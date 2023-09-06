@@ -1,11 +1,41 @@
 import React from "react";
 
-const Statsimport = () => {
+const State = [
+    {
+       count: "5k",
+       label: "Active Students",
+    },
+    {
+       count: "10+",
+       label: "Mentors",
+    },
+    {
+       count: "200+",
+       label: "Courses",
+    },
+    {
+       count: "50+",
+       label: "Awards",
+    },
+];
+
+const StatsComponent = () => {
     return(
-        <div>
-            Statsimport
-        </div>
+        <section>
+            <div>
+                {
+                    State.map((data, index) => {
+                        return(
+                            <div key={index}>
+                                <h1>{data.count}</h1>
+                                <h2>{data.label}</h2>
+                            </div>
+                        )
+                    })
+                }
+            </div>
+        </section>
     )
 }
 
-export default Statsimport;
+export default StatsComponent;
