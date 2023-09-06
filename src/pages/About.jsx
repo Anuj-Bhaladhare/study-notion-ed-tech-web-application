@@ -1,4 +1,15 @@
 import React from "react";
+import HighlightText from "../components/core/homePage/HighlightText";
+import BannerImage1 from "../assets/Images/aboutus1.webp";
+import BannerImage2 from "../assets/Images/aboutus2.webp";
+import BannerImage3 from "../assets/Images/aboutus3.webp";
+import Quote from "../components/core/AboutPage/Quote";
+import FoundingStory from "../assets/Images/FoundingStory.png";
+import StatsComponent from "../components/core/AboutPage/Stats";
+import LearningGrid from "../components/core/AboutPage/LearningGrid";
+import ContactFormSection from "../components/core/AboutPage/ContactFormSection";
+import Footer from "../components/common/Footer";
+
 
 const About = () => {
     return(
@@ -13,8 +24,8 @@ const About = () => {
                     </header>
                     <div>
                         <img src={BannerImage1} />
-                        <img src={BannerImage1} />
-                        <img src={BannerImage1} />
+                        <img src={BannerImage2} />
+                        <img src={BannerImage3} />
                     </div>
                 </div>
             </section>
@@ -79,7 +90,7 @@ const About = () => {
                    {/* <ReviewSlider /> */}
                 </div>
             </section>
-            
+
             {/*Footer*/}
             <Footer />
 
