@@ -17,7 +17,7 @@ const ForgotPassword = () => {
     }
 
     return(
-        <div className="grig min-h-[calc(100vh-3.5rem)] place-items-center">
+        <div className="grig min-h-[calc(100vh-3.5rem)] place-items-center mx-auto text-center">
             {
                 loading ?
                 (
