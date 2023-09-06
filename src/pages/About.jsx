@@ -13,7 +13,7 @@ import Footer from "../components/common/Footer";
 
 const About = () => {
     return(
-        <div>
+        <div className="mx-auto mt-[100px] text-white">
             {/*section 1*/}
             <section>
                 <div>
@@ -22,7 +22,7 @@ const About = () => {
                         <HighlightText text={"Brighter Future"}/>
                         <p>Studynotion is at the forefront of driving innovation in online education. We're passionate about creating a brighter future by offering cutting-edge courses, leveraging emerging technologies, and nurturing a vibrant learning community.</p>
                     </header>
-                    <div>
+                    <div className="flex gap-x-3 mx-auto">
                         <img src={BannerImage1} />
                         <img src={BannerImage2} />
                         <img src={BannerImage3} />
@@ -38,10 +38,10 @@ const About = () => {
             </section>
 
             {/*section 3*/}
-            <section>
+            <section className="flex flex-col">
                 <div>
                     {/* foudning story wala div */}
-                    <div>
+                    <div className="flex">
                         {/* founding story left box */}
                         <div>
                             <h1>Our Founding Story</h1>
@@ -55,7 +55,7 @@ const About = () => {
                     </div>
 
                     {/* vision and mission wala parent div */}
-                    <div>
+                    <div className="flex">
                         {/* Left Box */}
                         <div>
                             <h1>Our Vision</h1>
@@ -78,7 +78,7 @@ const About = () => {
             </section>
 
             {/*section 5*/}
-            <section>
+            <section className="mx-auto flex flex-col items-center justify-between gap-5 mb-[140px]">
                 <LearningGrid />
                 <ContactFormSection />
             </section>
