@@ -1,16 +1,44 @@
-import React, { useState } from "react";
-import {useForm} from "react-hook-form";
+import React, { useEffect, useState } from "react";
+import {set, useForm} from "react-hook-form";
+import { apiConnector } from "../../services/apiconnector";
+import { contactusEndpoint } from "../../services/apis";
 import CountryCode from "../../data/countrycode.json";
 
 const ContactUsForm = () => {
 
     const [loading, setLoading] = useState(false);
-    const {} = useForm();
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: {errors, isSubmitSuccessful}
+    } = useForm();
 
-    const submitContactForm = () => {
-
+    const submitContactForm = async(data) => {
+        console.log("Logging Data" , data);
+        try{
+            setLoading(true);
+            const responce = {status: "OK"};
+            console.log("Logging responce", responce);
+            setLoading(false)
+        }
+        catch(error){
+            console.log("Error", error);
+            setLoading(false);
+        }
     }
 
+    useEffect( () => {
+        if(isSubmitSuccessful){
+           reset({
+               email: "",
+               firstname: "",
+               lastname: "",
+               message: "",
+               phoneNo: ""
+           })
+        }
+    }, [reset, isSubmitSuccessful])
     return(
         <form onSubmit={handleSubmit(submitContactForm)}>
            <div>
@@ -73,9 +101,20 @@ const ContactUsForm = () => {
                 <label>Phone Number</label>
                 <div>
                     {/* dropdown */}
-                    <select>
+                    <select 
+                      name="dropdown" 
+                      id="dropdown" 
+                      className="bg-yellow-50 w-[80px]"
+                      {...register("countrycode", {required: true})}  
+                    >
                         {
-
+                            CountryCode.map( (element, index) => {
+                                return(
+                                    <option key={index} value={element.code}>
+                                        {element.code} -{element.country}
+                                    </option>
+                                )
+                            })
                         }
                     </select>
 
