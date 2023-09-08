@@ -7,22 +7,22 @@ const Contact = () => {
     return(
         <div>
            {/* Section 1 */}
-           <div>
+           <div className="mx-auto mt-20 flex-11/12 max-w-maxContent flex-col justify-between gap-10 text-white lg:flex-row">
                 {/* Contact Details */}
-                <div>
+                <div className="lg:w-[40%]">
                     <ContactDetails />
                 </div>
                 {/* Contact Form */}
-                <div>
+                <div className="lg:w-[60%]">
                     <ContactForm />
                 </div> 
            </div>
 
            {/* Section 2 */}
-           <div>
+           <div className="relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 bg-richblack-900 text-white">
                 {/* Reviws from Other Learner */}
                 <h1>Review From other learning</h1>
-                <div>
+                <div className="text-center text-4xl font-semibold mt-8">
                     {/* <ReviewSlider /> */}
                 </div>
            </div>
