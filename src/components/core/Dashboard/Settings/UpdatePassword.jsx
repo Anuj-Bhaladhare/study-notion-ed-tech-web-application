@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class UpdatePassword extends Component {
-    render() {
-        return (
-            <div>
+const UpdatePassword = () => {
+    return (
+        <div>
                 
-            </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default UpdatePassword;

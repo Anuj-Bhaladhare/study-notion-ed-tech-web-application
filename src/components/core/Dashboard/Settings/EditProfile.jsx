@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class EditProfile extends Component {
-    render() {
-        return (
-            <div>
+const EditProfile = () => {
+    return (
+        <div>
                 
-            </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default EditProfile;

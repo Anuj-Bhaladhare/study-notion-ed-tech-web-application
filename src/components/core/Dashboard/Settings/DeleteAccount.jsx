@@ -1,13 +1,11 @@
-import React, { Component } from 'react';
+import React from 'react';
 
-class DeleteAccount extends Component {
-    render() {
-        return (
-            <div>
+const DeleteAccount = () => {
+    return (
+        <div>
                 
-            </div>
-        );
-    }
+        </div>
+    );
 }
 
 export default DeleteAccount;
