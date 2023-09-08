@@ -1,11 +1,12 @@
 import React from "react";
+import * as Icons from "react-icons/vsc";
 import { useDispatch } from "react-redux";
 import { NavLink, matchPath, useLocation } from "react-router-dom";
 import { resetCourseState } from "../../../slices/courseSlice";
  
 const SidebarLink = ({ link, iconName }) => {
 
-    const IconComponent = Icon[iconName]
+    const IconComponent = Icons[iconName]
     const location = useLocation();
     const dispatch = useDispatch();
 

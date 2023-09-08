@@ -1,9 +1,7 @@
-const dateFormatter = () => {
+export const formattedDate = (date) => {
     return new Date(date).toLocaleDateString("en-US", {
-        month:"long",
-        day:"numeric",
-        year:"numeric",
+      month: "long",
+      day: "numeric",
+      year: "numeric",
     })
-}
-
-export default dateFormatter;
+  }
