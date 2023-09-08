@@ -1,9 +1,23 @@
 import React from "react"
+import IconBtn from "./IconBtn";
  
-const ConfirmationModal = () => {
+const ConfirmationModal = ({ modalData }) => {
     return(
         <div>
-           ConfirmationModal 
+           <div>
+              <p>
+                 {modalData?.text1}
+              </p>
+              <p>
+                 {modalData?.text2}
+              </p>
+              <div>
+                <IconBtn />
+                <button>
+                    {modalData?.btn2Text}
+                </button>
+              </div>
+           </div>
         </div>
     )
 }
