@@ -24,6 +24,3 @@ export default function useOnClickOutside(ref, handler) {
     };
   }, [ref, handler]); // Only run this effect when the ref or handler function changes
 }
-
-
-
