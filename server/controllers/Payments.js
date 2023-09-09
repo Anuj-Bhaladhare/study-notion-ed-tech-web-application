@@ -16,7 +16,7 @@ exports.capturePayment = async (req, res) => {
     //valid courseID
     if(!course_id) {
         return res.json({
-            success:false,
+            success: false,
             message:'Please provide valid course ID',
         })
     };
