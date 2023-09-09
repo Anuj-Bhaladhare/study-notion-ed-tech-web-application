@@ -1,29 +1,29 @@
-import React from "react";
-import { useState, useEffect } from "react";
-import { getUserEnrolledCourses } from "../../../services/operations/profileAPI";
+import React, { useEffect, useState } from 'react'
+import { useSelector } from 'react-redux'
+import { getUserEnrolledCourses } from '../../../services/operations/profileAPI';
 import ProgressBar from '@ramonak/react-progress-bar';
-import { useSelector } from "react-redux";
- 
+
 const EnrolledCourses = () => {
 
-    const {token} = useSelector((state) => state.auth);
+    const {token}  = useSelector((state) => state.auth);
     const [enrolledCourses, setEnrolledCourses] = useState(null);
     const getEnrolledCourses = async() => {
         try{
             const response = await getUserEnrolledCourses(token);
             setEnrolledCourses(response);
         }
-        catch(error){
+        catch(error) {
             console.log("Unable to Fetch Enrolled Courses");
         }
     }
 
-    useEffect( () => {
+    useEffect(()=> {
         getEnrolledCourses();
-    }, []);
+    },[]);
 
-    return(
-        <div className='text-white'>
+
+  return (
+    <div className='text-white'>
 
         <div>Enrolled Courses</div>
         {
@@ -67,9 +67,10 @@ const EnrolledCourses = () => {
                     }
                 </div>
             )
-        }   
+        }
+      
     </div>
-    )
+  )
 }
 
-export default EnrolledCourses;
+export default EnrolledCourses
