@@ -2,8 +2,15 @@ import React from 'react'
 
 const CourseBuilderForm = () => {
   return (
-    <div className='text-white'>
-      Step 2 me aapka swagat h 
+    <div>
+      <p>Course Builder</p>
+      <form>
+        <div>
+          <label>Section Name<sup>*</sup></label>
+          <input 
+          />
+        </div>
+      </form>
     </div>
   )
 }
