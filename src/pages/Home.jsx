@@ -5,12 +5,12 @@ import HighlightText from '../components/core/homePage/HighlightText'
 
 import CTAButton from "../components/core/homePage/Button"
 import Banner from "../assets/Images/banner.mp4"
-import CodeBlocks from "../components/core/homePage/CodeBlocks"
-import TimelineSection from '../components/core/homePage/TimelineSection'
-import LearningLanguageSection from '../components/core/homePage/LearningLanguageSection'
-import InstructorSection from '../components/core/homePage/InstructorSection'
+import CodeBlocks from "../components/core/HomePage/CodeBlocks"
+import TimelineSection from '../components/core/HomePage/TimelineSection'
+import LearningLanguageSection from '../components/core/HomePage/LearningLanguageSection'
+import InstructorSection from '../components/core/HomePage/InstructorSection'
 import Footer from '../components/common/Footer'
-import ExploreMore from '../components/core/homePage/ExploreMore'
+import ExploreMore from '../components/core/HomePage/ExploreMore'
 
 const Home = () => {
   return (
