@@ -4,34 +4,33 @@ const User = require("../models/User");
 const mailSender = require("../utils/mailSender");
 const {courseEnrollmentEmail} = require("../mail/templates/courseEnrollmentEmail");
 const { default: mongoose } = require("mongoose");
+const { paymentSuccessEmail } = require("../mail/templates/paymentSuccessEmail")
+const crypto = require("crypto");
 
 
 //initiate the razorpay order
 exports.capturePayment = async(res, req) => {
    
-    try{
         const { courses } = req.body;
         const userId = req.user.id;
 
         if(courses.length === 0 ){
-            res.status(400).json({
-                success: false,
-                message: "Course is not found, plxz provide course id",
-            })
+            return res.json({success:false, message: "Please provide Course Id"})
         }
         
         let totalAmmount = 0;
-         for(const course_id of courses){
+
+        for(const course_id of courses){
             let course;
             try{
                course = await Course.findById(course_id);
                if(!course){
-                return res.status(200).json({success: false, message: "course not found..."});
+                return res.status(200).json({success: false, message: "Could not find the course"});
                }
 
                const uid = new mongoose.Types.ObjectId(userId);
                if(course.studentsEnrolled.includes(uid)){
-                return res.status(200).json({ success: false, message: "students Enrolled"})
+                return res.status(200).json({ success: false, message: "Student is already Enrolled"});
                }
 
                totalAmmount += course.price;
@@ -40,14 +39,29 @@ exports.capturePayment = async(res, req) => {
                 console.log(error);
                 return res.status(500).json({
                     success: false,
-                    message: message.error,
+                    message: error.message,
                 })
             }
-         }
-    }
-    catch(error){
-        
-    }
+        }
+
+        const currency = "INR";
+        const options = {
+            amount: totalAmmount * 100,
+            currency,
+            receipt: Math.random(Date.now()).toString(),
+        }
+
+        try{
+            const paymentResponse = await instance.orders.create(options);
+            res.json({
+                success: true,
+                message: paymentResponse,
+            })
+        }
+        catch(error){
+            console.log(error);
+            return res.status(500).json({success:false, mesage:"Could not Initiate Order"});    
+        }
 }
 
 
